@@ -103,22 +103,22 @@ WSGI_APPLICATION = 'library_management_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-
-# # Database configuration for PostgreSQL with on-render development server
-# # Replace the SQLite DATABASES configuration with PostgreSQL:
 # DATABASES = {
-#     'default': dj_database_url.config(
-#         # Replace this value with your local database's connection string.
-#         default='postgresql://postgresql_database_a9uq_user:wugujW6eem3Bi4dpQwDwt65AMK7en5SE@dpg-cq03v4mehbks73e6cikg-a.oregon-postgres.render.com/postgresql_database_a9uq',
-#     )
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
 # }
+
+
+# Database configuration for PostgreSQL with on-render development server
+# Replace the SQLite DATABASES configuration with PostgreSQL:
+DATABASES = {
+    'default': dj_database_url.config(
+        # Replace this value with your local database's connection string.
+        default='postgresql://postgresql_database_a9uq_user:wugujW6eem3Bi4dpQwDwt65AMK7en5SE@dpg-cq03v4mehbks73e6cikg-a.oregon-postgres.render.com/postgresql_database_a9uq',
+    )
+}
 
 
 # Password validation

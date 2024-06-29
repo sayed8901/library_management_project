@@ -39,7 +39,7 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
 # To trust and allow CSRF token on deployment, adding our domain to CSRF_TRUSTED_ORIGINS list
-CSRF_TRUSTED_ORIGINS = ['https://https://library-management-project-ofav.onrender.com','https://*.127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://library-management-project-ofav.onrender.com','https://*.127.0.0.1']
 
 
 # Application definition

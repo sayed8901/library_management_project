@@ -66,6 +66,7 @@ def borrow_book(request, book_id, user_id):
         book_borrow_order.save()
         print(book_borrow_order)
 
+
         book_activity_email(request.user, target_book, target_book.price, 'Borrow Book Message', 'borrow_book_email.html')
 
         messages.success(request, 'Book borrowing successful.')
@@ -103,7 +104,10 @@ def return_book(request, book_id, user_id):
 
     # updating activity type of the target_book of current user rather that creating a new activity
     target_activity.activity_type = 'Returned'
+    target_activity.balance_after_activity = current_user.account.balance
+
     target_activity.save()
+
 
     messages.success(request, 'Book returned successfully.')
 
@@ -141,4 +145,5 @@ def activity_report(request, user_id):
     print(target_activities.count())
 
     return render(request, 'activity_report.html', {'data': target_activities})
+
 

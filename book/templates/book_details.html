@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+
+<!-- crispy forms -->
+{% load crispy_forms_tags %}
+
+<!-- block content -->
+{% block content %}
+
+<section
+  class="container mx-auto flex flex-col md:flex-row items-center my-12 md:my-24"
+>
+  <div class="w-full lg:w-1/2 lg:py-6 text-center">
+    <img
+      src="{{ book.image.url }}"
+      class="rounded-lg w-full my-5"
+      alt="Book Image"
+    />
+  </div>
+  <div
+    class="w-full lg:w-1/2 justify-center items-start py-10 px-6 bg-white rounded-2xl bg-opacity-70 mx-3"
+  >
+    <div class="flex justify-between items-center">
+      <h5>
+        <span class="card-title text-lg text-3xl font-bold mb-4">
+          {{book.book_name}}</span
+        >
+        by {{book.author}}
+      </h5>
+      <h4 class="text-xl">Category: {{ book.category_name }}</h4>
+    </div>
+
+    <p class="leading-normal my-8">{{ book.description }}</p>
+
+    <div class="flex justify-between mb-8">
+      <h4 class="text-xl">Price: {{ book.price }}</h4>
+      <h4 class="text-xl">Quantity available: {{ book.quantity }} pcs</h4>
+    </div>
+
+    <div class="flex justify-end w-full">
+      {% if user.is_authenticated and book.quantity > 0 %}
+      <a
+        href="{% url 'borrow_book' book.id user.id %}"
+        class="no-underline inline-block border border-blue-500 text-orange-700 py-2 px-4 mt-4 rounded hover:bg-blue-500 hover:text-white text-lg"
+        >Borrow Now</a
+      >
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- reviews part -->
+<div class="flex justify-between">
+  <!-- showing -->
+  <div class="card w-full mx-auto my-2 p-5">
+    <h5 class="text-center text-2xl font-bold mt-4 mb-8">
+      Total {{ reviews | length }} reviews for {{book.book_name}}
+    </h5>
+
+    <div class="card-body grid grid-cols-2 gap-4">
+      {% for review in reviews %}
+      <div class="border bg-white rounded-xl px-5 py-2 mb-2">
+        <p>
+          <b>{{ review.user.first_name }}</b> ({{ review.user.email }}), reviews
+          on: {{review.created_on }}
+        </p>
+        <p>Review: <b>{{ review.body }}</b></p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- form part -->
+  {% if user_has_borrowed %}
+  <div class="w-full flex mt-10 justify-center">
+    <div class="bg-white rounded-lg">
+      <h1 class="font-bold text-3xl text-center py-5 shadow-md">
+        Add a Review
+      </h1>
+      <form
+        method="post"
+        class="shadow-md border border-gray-200 rounded px-8 pt-6 pb-8 mb-4"
+      >
+        {% csrf_token %}
+        <!-- to handle hidden form field errors -->
+        {% for hidden_field in form.hidden_fields %}
+        <!-- showing errors -->
+        {{ hidden_field.errors }}
+        <!-- field data -->
+        {{ hidden_field }}
+        <!-- end for -->
+        {% endfor %}
+
+        <!-- form -->
+        <!-- accessing form input fields by loop -->
+        {% for fm in review_form %}
+
+        <div>
+          <!-- to show the label texts -->
+          <label
+            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+            >{{ fm.label_tag }}</label
+          >
+          <!-- to show the input fields -->
+          <div class="border-2 border-indigo-300 rounded-lg p-2 mb-4">
+            {{ fm }}
+          </div>
+        </div>
+
+        <!-- end of for loop -->
+        {% endfor %}
+
+        <!-- errors handling -->
+        {% if field.errors %}
+        <!-- to handle form errors -->
+        {% for error in field.errors %}
+
+        <!-- adding css styles to the error fields -->
+        <p class="text-red-600 text-sm italic pb-2">
+          <!-- showing error -->
+          {{ error }}
+        </p>
+
+        {% endfor %}
+        <!-- end if -->
+        {% endif %}
+
+        <div class="flex items-center justify-center w-full">
+          <button
+            class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  {% endif %}
+  <!--  -->
+  {% endblock %}
+</div>

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+<!-- to load humanize -->
+{% load humanize %}
+
+<!-- title block -->
+{% block head_title %} Activity Report{% endblock %}
+
+<!-- content block -->
+{% block content %}
+
+<div class="my-10 py-3 px-4 bg-white rounded-xl shadow-md">
+  <h1 class="font-bold text-3xl text-center pb-5 pt-2">
+    Activity History Report
+  </h1>
+  <hr />
+
+  <table
+    class="table-auto mx-auto w-full px-5 rounded-xl mt-8 border dark:border-neutral-500"
+  >
+    <thead class="bg-purple-900 text-white text-left">
+      <tr
+        class="bg-gradient-to-tr from-indigo-600 to-purple-600 rounded-md py-2 px-4 text-white font-bold"
+      >
+        <th class="px-4 py-2">Book Name</th>
+        <th class="px-4 py-2">Activity Type</th>
+        <th class="px-4 py-2">Price</th>
+        <th class="px-4 py-2">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- showing report_list -->
+      {% for activity in data %}
+      <tr class="border-b dark:border-neutral-500">
+        <td class="px-4 py-2">{{ activity.book.book_name }}</td>
+        <td class="px-4 py-3 text-s border">
+          <span
+            class="px-2 py-1 font-bold leading-tight rounded-sm text-green-700 bg-green-100"
+          >
+            {% if activity.activity_type == 'Returned' %} Borrowed and Returned
+            {% else %} {{activity.activity_type}} {% endif %}
+          </span>
+        </td>
+        <td class="px-4 py-2">
+          $ {{ activity.book.price|floatformat:2|intcomma }}
+        </td>
+        <td class="px-4 py-2">{{ activity.created_on|date:"F d, Y h:i A" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

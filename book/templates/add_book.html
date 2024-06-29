@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+<!-- title block -->
+{% block head_title %} Add Book {% endblock %}
+
+<!-- content starts -->
+{% block content %}
+
+<!-- to handle non-form error -->
+{% if form.non_field_errors %}
+
+<!-- showing errors -->
+{% for error in form.non_field_errors %}
+<div
+  class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-2"
+  role="alert"
+>
+  <p class="font-bold">Error!</p>
+  <p class="block sm:inline">{{ error }}</p>
+</div>
+{% endfor %} {% endif %}
+
+<div class="w-full flex mt-10 justify-center">
+  <div class="bg-white w-5/12 rounded-lg p-6">
+    <h1 class="font-bold text-3xl text-center pb-5 shadow-md">Add a Book</h1>
+
+    <form
+      method="post"
+      class="shadow-md border border-gray-200 rounded px-3 pt-6 pb-8 mb-4"
+      enctype="multipart/form-data"
+    >
+      {% csrf_token %}
+
+      <!-- to handle hidden form field errors -->
+      {% for hidden_field in form.hidden_fields %}
+      <!-- showing errors -->
+      {{ hidden_field.errors }}
+      <!-- field data -->
+      {{ hidden_field }}
+      <!-- end for -->
+      {% endfor %}
+
+      <!-- accessing form input fields by loop -->
+      {% for fm in form %}
+
+      <div>
+        <!-- to show the label texts -->
+        <label
+          class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+          >{{fm.label_tag}}</label
+        >
+
+        <!-- to show the input fields -->
+        <div class="border-2 border-indigo-300 rounded-lg p-2 mb-4">{{fm}}</div>
+      </div>
+
+      <!-- end of for loop -->
+      {% endfor %}
+
+      <!-- errors handling -->
+      {% if field.errors %}
+      <!-- to handle form errors -->
+      {% for error in field.errors %}
+
+      <!-- adding css styles to the error fields -->
+      <p class="text-red-600 text-sm italic pb-2">
+        <!-- showing error -->
+        {{ error }}
+      </p>
+
+      {% endfor %}
+      <!-- end if -->
+      {% endif %}
+
+      <div class="flex items-center justify-center w-full">
+        <button
+          class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-2 rounded focus:outline-none focus:shadow-outline"
+          type="submit"
+        >
+          Add
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

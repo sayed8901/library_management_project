@@ -46,7 +46,7 @@
           $ {{ activity.book.price|floatformat:2|intcomma }}
         </td>
         <td class="px-4 py-2">
-          $ {{ activity.balance_after_transaction|floatformat:2|intcomma }}
+          $ {{ activity.balance_after_activity|floatformat:2|intcomma }}
         </td>
         <td class="px-4 py-2">{{ activity.created_on|date:"F d, Y h:i A" }}</td>
       </tr>

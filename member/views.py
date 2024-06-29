@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
+
 from django.views.generic import FormView
+from django.views import View
 
 from .forms import UserRegistrationForm, UserUpdateForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth import login, logout
 from django.urls import reverse_lazy
 
-from django.views import View
 
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
@@ -110,6 +112,9 @@ def password_change(request):
                 form.save()
                 # password update korbe
                 update_session_auth_hash(request, form.user)
+
+                messages.success(request, 'You have changed your password successfully.')
+
 
                 # sending email notification
                 password_change_email(request.user, 'Password Change Notification', 'pass_change_email.html')

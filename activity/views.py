@@ -61,6 +61,7 @@ def borrow_book(request, book_id, user_id):
             user = request.user,
             book = target_book,
             activity_type = 'Borrowed',
+            balance_after_activity=current_user.account.balance
         )
         book_borrow_order.save()
         print(book_borrow_order)

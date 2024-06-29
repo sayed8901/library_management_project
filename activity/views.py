@@ -67,7 +67,7 @@ def borrow_book(request, book_id, user_id):
 
         book_activity_email(request.user, target_book, target_book.price, 'Borrow Book Message', 'borrow_book_email.html')
 
-        return redirect('homepage')
+    return redirect('homepage')
 
 
 

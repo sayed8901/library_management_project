@@ -25,6 +25,7 @@
         <th class="px-4 py-2">Book Name</th>
         <th class="px-4 py-2">Activity Type</th>
         <th class="px-4 py-2">Price</th>
+        <th class="px-4 py-2">Balance</th>
         <th class="px-4 py-2">Date</th>
       </tr>
     </thead>
@@ -43,6 +44,9 @@
         </td>
         <td class="px-4 py-2">
           $ {{ activity.book.price|floatformat:2|intcomma }}
+        </td>
+        <td class="px-4 py-2">
+          $ {{ activity.user.transactions.balance_after_transaction|floatformat:2|intcomma }}
         </td>
         <td class="px-4 py-2">{{ activity.created_on|date:"F d, Y h:i A" }}</td>
       </tr>

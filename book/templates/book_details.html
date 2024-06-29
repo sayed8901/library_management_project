@@ -36,6 +36,7 @@
       <h4 class="text-xl">Quantity available: {{ book.quantity }} pcs</h4>
     </div>
 
+    {% if not user_has_borrowed %}
     <div class="flex justify-end w-full">
       {% if user.is_authenticated and book.quantity > 0 %}
       <a
@@ -45,6 +46,15 @@
       >
       {% endif %}
     </div>
+    {% else %}
+    <div class="flex justify-end w-full">
+      <a
+        href="{% url 'return_book' book.id user.id %}"
+        class="no-underline inline-block border border-blue-500 text-orange-700 py-2 px-4 mt-4 rounded hover:bg-orange-500 hover:text-white text-lg"
+        >Return this book</a
+      >
+    </div>
+    {% endif %}
   </div>
 </section>
 

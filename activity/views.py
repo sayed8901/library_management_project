@@ -39,10 +39,12 @@ def borrow_book(request, book_id, user_id):
     
 
     if target_book.quantity < 1:
-        return messages.warning(request, 'You can not borrow this book as there are no more copy available to borrow')
+        messages.warning(request, 'You can not borrow this book as there are no more copy available to borrow')
+        return redirect('homepage')
     
     if current_user.account.balance < target_book.price:
-        return messages.warning(request, 'You can not borrow this book as you dont have enough money to borrow')
+        messages.warning(request, 'You can not borrow this book as you dont have enough money to borrow')
+        return redirect('homepage')
 
     if target_book.quantity > 0 and current_user.account.balance >= target_book.price:
         # decreasing book quantity
@@ -63,10 +65,12 @@ def borrow_book(request, book_id, user_id):
         book_borrow_order.save()
         print(book_borrow_order)
 
-        messages.success(request, 'Book borrowing successful.')
-
         book_activity_email(request.user, target_book, target_book.price, 'Borrow Book Message', 'borrow_book_email.html')
 
+        messages.success(request, 'Book borrowing successful.')
+        return redirect('homepage')
+
+    messages.error(request, 'An unexpected error occurred.')
     return redirect('homepage')
 
 

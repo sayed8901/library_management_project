@@ -14,7 +14,11 @@ class Activity(models.Model):
 
     created_on = models.DateTimeField(auto_now_add=True)
 
+
+    class Meta:
+        ordering = ['created_on',]   # sorting activities by timestamp
+
+
+
     def __str__(self):
         return f'{self.user.username} {self.activity_type} {self.book.book_name}'
-    
-
